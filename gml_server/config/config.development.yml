@@ -1,0 +1,8 @@
+appname: clark-app
+
+db:
+    ip: 127.0.0.1
+    port:     1234
+    name:     development-db
+    user:     clark
+    password: 123

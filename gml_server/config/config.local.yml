@@ -1,0 +1,8 @@
+appname: clark-app
+
+db:
+    ip: 127.0.0.1
+    port:     1234
+    name:     local-db
+    user:     clark
+    password: 123
