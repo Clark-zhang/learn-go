@@ -2,7 +2,7 @@ package router
 
 import(
     "github.com/julienschmidt/httprouter"
-    "github.com/Clark-zhang/gml_server/controller"
+    "github.com/Clark-zhang/learn-go/gml_server/controller"
 )
 
 func New() *httprouter.Router{
