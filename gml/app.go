@@ -2,18 +2,35 @@ package main
 
 import (
     "fmt"
-    "github.com/jinzhu/configor"
+    "sync"
     "github.com/Clark-zhang/learn-go/gml/request"
 )
 
-func main() {
 
-    req := request.Request{
-        Url: "/bookId?bookId=123"
-        Method: "get"
-        R: make(chan string)
+func sendReq(){
+    var wg sync.WaitGroup
+
+    getReq := request.Request{
+        Url: "/bookId?bookId=123",
+        Method: "get",
+        R: make(chan string),
     }
-    go req.MakeRequest();
+    go getReq.MakeRequest(&wg);
 
-    fmt.Println(req.R)
+    postReq := request.Request{
+        Url: "/getBook",
+        Method: "post",
+        Data: map[string]string{"bookId": "1"},
+        R: make(chan string),
+    }
+    go postReq.MakeRequest(&wg);
+
+    wg.Wait()
+
+    fmt.Println(<-getReq.R)
+    fmt.Println(<-postReq.R)
+}
+
+func main(){
+    sendReq()
 }
