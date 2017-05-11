@@ -2,10 +2,9 @@ package controller
 
 import(
     "fmt"
-    "github.com/julienschmidt/httprouter"
     "net/http"
     "encoding/json"
-    "bytes"
+    // "bytes"
 )
 
 type book struct {
@@ -13,21 +12,22 @@ type book struct {
     Name string `json:"bookName"`
 }
 
-func GetBookId(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func GetBookId(w http.ResponseWriter, r *http.Request) {
     queryValues := r.URL.Query()
 
     fmt.Fprintf(w, "bookId: %s \n", queryValues.Get("bookId"))
 }
 
-func GetBook(w http.ResponseWriter, r *http.Request, ps httprouter.Params){
+func GetBook(w http.ResponseWriter, r *http.Request){
     r.ParseForm()
 
     bookId := r.Form.Get("bookId")
 
-    var buffer bytes.Buffer
-    buffer.WriteString("The bookName of bookId ")
-    buffer.WriteString(bookId)
-    bookName := buffer.String()
+    // var buffer bytes.Buffer
+    // buffer.WriteString("The bookName of bookId ")
+    // buffer.WriteString(bookId)
+    // bookName := buffer.String()
+    bookName := "The bookName of bookId " + bookId
 
     book := book{Id: bookId, Name: bookName}
 

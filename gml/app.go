@@ -25,10 +25,27 @@ func sendReq(){
     }
     go postReq.MakeRequest(&wg);
 
+
+    loginReq := request.Request{
+        Url: "/needLogin",
+        Method: "get",
+        R: make(chan string),
+    }
+    go loginReq.MakeRequest(&wg);
+
+    redirectReq := request.Request{
+        Url: "/redirect",
+        Method: "get",
+        R: make(chan string),
+    }
+    go redirectReq.MakeRequest(&wg);
+
     wg.Wait()
 
     fmt.Println(<-getReq.R)
     fmt.Println(<-postReq.R)
+    fmt.Println(<-loginReq.R)
+    fmt.Println(<-redirectReq.R)
 }
 
 func main(){

@@ -1,14 +1,17 @@
 package router
 
 import(
-    "github.com/julienschmidt/httprouter"
-    "github.com/Clark-zhang/learn-go/gml_server/controller"
+    "net/http"
+    "github.com/justinas/alice"
+    c "github.com/Clark-zhang/learn-go/gml_server/controller"
 )
 
-func New() *httprouter.Router{
-    router := httprouter.New()
-    router.GET("/bookId", controller.GetBookId)
-    router.POST("/getBook", controller.GetBook)
+func New(){
+    login := alice.New(c.Login)
 
-    return router
+    http.HandleFunc("/bookId", c.GetBookId)
+    http.Handle("/getBook", login.ThenFunc(c.GetBook))
+
+    http.Handle("/needLogin", login.ThenFunc(c.GetBook))
+    http.Handle("/redirect", login.ThenFunc(c.GetBook))
 }
