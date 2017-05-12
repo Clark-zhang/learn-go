@@ -1,0 +1,16 @@
+version: "2"
+
+services:
+  comment-mysql:
+    image: mysql:5.7
+    container_name: comment-mysql
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/conf:/etc/mysql
+      - ./mysql/logs/:/var/log/mysql/
+    ports:
+      - "7008:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: clark
+      MYSQL_PASSWORD: clark
