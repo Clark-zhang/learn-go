@@ -1,6 +1,7 @@
 /*
 todo:
     mysql connection pool
+    transaction
     atomic,mutex?
 
 */
