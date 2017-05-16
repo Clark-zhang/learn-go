@@ -13,8 +13,8 @@ Create table:
 CREATE TABLE IF NOT EXISTS `comments_relationship` (
     `c_id` bigint(30),
     `p_id` bigint(30),
-    `fp_id` bigint(30)
-    `e_id` bigint(30),
+    `fp_id` bigint(30),
+    `e_id` bigint(30)
 );
 CREATE TABLE IF NOT EXISTS `comments` (
     `id` bigint(30) NOT NULL auto_increment,
@@ -30,9 +30,9 @@ CREATE TABLE IF NOT EXISTS `comments` (
 package main
 
 import (
-    cs_mysql "github.com/Clark-zhang/learn-go/comment_system/storage/mysql"
+     cs_server "github.com/Clark-zhang/learn-go/comment_system/server"
      )
 
-
 func main(){
+    cs_server.Run()
 }
