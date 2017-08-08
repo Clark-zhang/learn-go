@@ -16,6 +16,7 @@ import(
 func ImageServiceAdd(w http.ResponseWriter, r *http.Request) {
     //32 << 20 == 32 * 2^20 == 32Mb
     r.ParseMultipartForm(32 << 20)
+    res := make(map[string]string)
 
     conf := config.GetOverseaConfig()
 
@@ -24,7 +25,10 @@ func ImageServiceAdd(w http.ResponseWriter, r *http.Request) {
 
     file, handler, err := r.FormFile("file")
     if err != nil {
-        glog.Fatalf("FormFile: %s", err)
+        glog.Error("FormFile: %s", err)
+        res["code"] = "1"
+        response, _ := json.Marshal(res)
+        fmt.Fprintf(w, "%s\n", response)
         return
     }
     defer file.Close()
@@ -32,24 +36,22 @@ func ImageServiceAdd(w http.ResponseWriter, r *http.Request) {
     if _, err := os.Stat(path); os.IsNotExist(err) {
        err := os.MkdirAll(path, 0777)
         if err != nil {
-            glog.Fatalf("MkdirAll: %s", err)
+            glog.Error("MkdirAll: %s", err)
         }
     }
 
     fileName, _ := lib.RenameFileToUniqueId(handler.Filename)
     f, err := os.OpenFile(path + fileName, os.O_WRONLY|os.O_CREATE, 0777)
     if err != nil {
-        glog.Fatalf("OpenFile: %s", err)
+        glog.Error("OpenFile: %s", err)
         return
     }
     defer f.Close()
 
     _, err = io.Copy(f, file)
 
-    res := make(map[string]string)
-
     if err != nil {
-        glog.Fatalf("Copy: %s", err)
+        glog.Info("Copy: %s", err)
         res["code"] = "1"
     }else {
         glog.Info("Sucess " + path + fileName)
@@ -81,7 +83,7 @@ func ActsServiceAdd(w http.ResponseWriter, r *http.Request) {
     if _, err := os.Stat(path); os.IsNotExist(err) {
        err := os.MkdirAll(path, 0777)
         if err != nil {
-            glog.Fatalf("MkdirAll: %s", err)
+            glog.Error("MkdirAll: %s", err)
         }
     }
 
@@ -91,7 +93,7 @@ func ActsServiceAdd(w http.ResponseWriter, r *http.Request) {
     res := make(map[string]string)
 
     if err != nil{
-        glog.Fatalf("ioutil.WriteFile: %s", err)
+        glog.Error("ioutil.WriteFile: %s", err)
         res["code"] = "1"
     }else {
         glog.Info("Sucess " + path + fileName)
