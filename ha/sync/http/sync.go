@@ -27,6 +27,8 @@ func SyncByHttp(req *http.Request) {
     }
 
     //@todo support multi instances
+    //add max-jump in command line parameters, use ha-count++ ?
+    //then what if the second instance is down?
     proxyReq.Header.Set("ha-sync", "true")
     proxyReq.Header.Set("Content-Type", "multipart/form-data")
 

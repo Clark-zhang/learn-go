@@ -10,6 +10,8 @@ import (
 //curl localhost:30001/setData -d "key=alicekey1&value=alicevalue1"
 //curl localhost:30003/setData -d "key=bobkey1&value=bobvalue1"
 
+//@todo add reverse proxy for fetching data?
+//@todo add register center to register/heartbeat new instance?
 
 func main() {
     storage := flag.String("storage", "localhost:30002", "redis addr")
