@@ -7,6 +7,7 @@ import (
     "log"
     "encoding/json"
     "bytes"
+    "flag"
 )
 
 
@@ -58,11 +59,14 @@ func GetBook(w http.ResponseWriter, r *http.Request, ps httprouter.Params){
 }
 
 func main() {
+    port := flag.String("port", "7007", "port the service will run")
+    flag.Parse()
+
     router := httprouter.New()
     router.GET("/", Index)
     router.GET("/hello/:name", Hello)
     router.GET("/bookId", GetBookId)
     router.POST("/getBook", GetBook)
 
-    log.Fatal(http.ListenAndServe(":7007", router))
+    log.Fatal(http.ListenAndServe(":" + *port, router))
 }
